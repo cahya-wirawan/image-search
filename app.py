@@ -3,6 +3,7 @@ import SessionState
 from prompts import PROMPT_LIST
 from wit_index import WitIndex
 import random
+import time
 
 # st.set_page_config(page_title="Image Search")
 
@@ -66,9 +67,12 @@ wit_index = get_wit_index()
 if st.button("Run"):
     with st.spinner(text="Getting results..."):
         st.subheader("Result")
+        time_start = time.time()
         distances, index, image_info = process(text=session_state.text, top_k=int(top_k))
+        time_end = time.time()
+        print(f"Search in {time_end-time_start} seconds")
         for i, distance in enumerate(distances):
-            st.image(image_info[i][0], width=400)
+            st.image(image_info[i][0].replace("http:", "https:"), width=400)
             st.write(f"{image_info[i][1]}. (D: {distance:.2f})")
 
         # Reset state
