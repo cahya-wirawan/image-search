@@ -6,8 +6,9 @@ import random
 
 # st.set_page_config(page_title="Image Search")
 
-wit_index_path = "./models/wit_faiss_128.idx"
-model_name = "./models/distilbert-base-wiki-128"
+vector_length = 128
+wit_index_path = f"./models/wit_faiss_{vector_length}.idx"
+model_name = f"./models/distilbert-base-wiki-{vector_length}"
 wit_dataset_path = "./models/wit_dataset.pkl"
 
 @st.cache(suppress_st_warning=True, allow_output_mutation=True)
@@ -68,8 +69,7 @@ if st.button("Run"):
         distances, index, image_info = process(text=session_state.text, top_k=int(top_k))
         for i, distance in enumerate(distances):
             st.image(image_info[i][0], width=400)
-            st.write(f"Distance: {distance:.2f}")
-            st.write(image_info[i][1])
+            st.write(f"{image_info[i][1]}. (D: {distance:.2f})")
 
         # Reset state
         session_state.prompt = None
