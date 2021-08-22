@@ -7,9 +7,9 @@ import time
 
 # st.set_page_config(page_title="Image Search")
 
-vector_length = 128
-wit_index_path = f"./models/wit_faiss_{vector_length}.idx"
-model_name = f"./models/distilbert-base-wiki-{vector_length}"
+# vector_length = 128
+wit_index_path = f"./models/wit_faiss.idx"
+model_name = f"./models/distilbert-base-wit"
 wit_dataset_path = "./models/wit_dataset.pkl"
 
 @st.cache(suppress_st_warning=True, allow_output_mutation=True)
