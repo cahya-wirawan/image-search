@@ -70,7 +70,9 @@ if st.button("Run"):
         time_start = time.time()
         distances, index, image_info = process(text=session_state.text, top_k=int(top_k))
         time_end = time.time()
-        print(f"Search in {time_end-time_start} seconds")
+        time_diff = time_end-time_start
+        print(f"Search in {time_diff} seconds")
+        st.markdown(f"*Search in {time_diff:.5f} seconds*")
         for i, distance in enumerate(distances):
             st.image(image_info[i][0].replace("http:", "https:"), width=400)
             st.write(f"{image_info[i][1]}. (D: {distance:.2f})")
