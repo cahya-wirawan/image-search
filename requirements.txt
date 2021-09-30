@@ -1,11 +1,8 @@
 numpy
 torch
-tensorflow
 transformers
-tensorflow
-mtranslate
 sentence-transformers
 datasets
 faiss-cpu
 # streamlit version 0.67.1 is needed due to issue with caching
-streamlit==0.67.1
+streamlit

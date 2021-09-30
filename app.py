@@ -12,13 +12,15 @@ wit_index_path = f"./models/wit_faiss.idx"
 model_name = f"./models/distilbert-base-wit"
 wit_dataset_path = "./models/wit_dataset.pkl"
 
+
 @st.cache(suppress_st_warning=True, allow_output_mutation=True)
 def get_wit_index():
     st.write("Loading the WIT index, dataset and the DistillBERT model..")
     wit_index = WitIndex(wit_index_path, model_name, wit_dataset_path, gpu=False)
     return wit_index
 
-@st.cache(suppress_st_warning=True)
+# st.cache is disabled temporarily because the inference could take forever using newer streamlit version.
+# @st.cache(suppress_st_warning=True)
 def process(text: str, top_k: int = 10):
     # st.write("Cache miss: process")
     distance, index, image_info = wit_index.search(text, top_k=top_k)
@@ -74,7 +76,10 @@ if st.button("Run"):
         print(f"Search in {time_diff} seconds")
         st.markdown(f"*Search in {time_diff:.5f} seconds*")
         for i, distance in enumerate(distances):
-            st.image(image_info[i][0].replace("http:", "https:"), width=400)
+            try:
+                st.image(image_info[i][0].replace("http:", "https:"), width=400)
+            except FileNotFoundError:
+                st.write(f"{image_info[i][0]} can't be displayed")
             st.write(f"{image_info[i][1]}. (D: {distance:.2f})")
 
         # Reset state
